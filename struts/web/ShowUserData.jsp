@@ -11,12 +11,8 @@
 <body>
 <div align="center">
     <h2>Hello
-        <bean:write name="CustomerForm" property="firstName" />
-        <bean:write name="CustomerForm" property="lastName" />
-        <!--bean:write name="UserData" property="author" /-->
+        <bean:write name="UserData" property="authors" />
     </h2>
-    <h3>Congratulations</h3>
-    <html:link page="/showCustomerForm.do">Go Back</html:link>
 </div>
 </body>
 </html:html>

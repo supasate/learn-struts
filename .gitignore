@@ -1,3 +1,11 @@
 *.swp
 /tools
 /.vagrant
+/struts/build
+/struts/dist
+/struts/web/WEB-INF/classes
+/struts/web/WEB-INF/lib
+/jsf/build
+/jsf/dist
+/jsf/web/WEB-INF/classes
+/jsf/web/WEB-INF/lib

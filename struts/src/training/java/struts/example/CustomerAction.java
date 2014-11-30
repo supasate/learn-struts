@@ -17,6 +17,7 @@ public class CustomerAction extends Action {
             return mapping.findForward("mainpage");
         }
         CustomerForm custForm = (CustomerForm) form;
+        UserData userData = new UserData();
         if ("Save".equals(custForm.getStep())) {
             String firstName = custForm.getFirstName();
             String lastName = custForm.getLastName();
