@@ -1,2 +1,4 @@
+/dist
 /build
 /web/WEB-INF/classes
+/web/WEB-INF/lib
