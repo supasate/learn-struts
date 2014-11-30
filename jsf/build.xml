@@ -1,0 +1,100 @@
+<project name="basic_jsf" default="dist" basedir=".">
+	<description>Basic JSF Application</description>
+	<property environment="env"/>
+	<property file="build.properties"/>
+	
+	<fileset id="jsf.lib.files" dir="${jsf.lib.dir}">
+		<include name="**/*.jar"/>
+	</fileset>
+	<path id="jsf.classpath">
+		<fileset refid="jsf.lib.files"/>
+	</path>
+	<path id="project.class.path">
+		<pathelement location="${servlet.jar}"/>
+		<pathelement location="${jsp.jar}"/>
+		<path refid="jsf.classpath"/>
+	</path>
+	<target name="clean" description="clean up">
+		<delete dir="${build.dir}"/>
+		<delete dir="${dist.dir}"/>
+	</target>
+	<target name="init">
+		<mkdir dir="${build.dir}"/>
+	</target>
+	<target name="compile" depends="init">
+		<javac srcdir="${src.dir}" destdir="${build.dir}" debug="on">
+			<classpath>
+				<path refid="project.class.path"/>
+			</classpath>
+		</javac>
+		<copy todir="${build.dir}">
+			<fileset dir="${src.dir}">
+				<include name="**/*.properties"/>
+			</fileset>
+		</copy>
+	</target>
+	<target name="dist" depends="compile">
+		<mkdir dir="${dist.dir}"/>
+		<mkdir dir="web/WEB-INF/classes"/>
+		<copy todir="web/WEB-INF/classes">
+			<fileset dir="${build.dir}"/>
+		</copy>
+		<war destfile="${dist.dir}/${ant.project.name}.war" webxml="web/WEB-INF/web.xml">
+			<fileset dir="web" excludes="**/web.xml"/>
+			<webinf dir="web/WEB-INF">
+				<include name="*.xml"/>
+				<exclude name="web.xml"/>
+			</webinf>
+			<lib dir="web/WEB-INF/lib">
+				<include name="${jsf.lib.dir}/**/*.jar"/>
+			</lib>
+			<classes dir="build"/>
+		</war>
+	</target>
+
+	<path id="catalina-ant-classpath">
+        <fileset dir="${appserver.lib}">
+            <include name="catalina-ant.jar"/>
+			<include name="tomcat-util.jar"/>
+        </fileset>
+    </path>
+	<taskdef name="deploy" classname="org.apache.catalina.ant.DeployTask">
+		<classpath refid="catalina-ant-classpath"/>
+	</taskdef>
+	<taskdef name="list" classname="org.apache.catalina.ant.ListTask">
+		<classpath refid="catalina-ant-classpath"/>
+	</taskdef>
+	<taskdef name="reload" classname="org.apache.catalina.ant.ReloadTask">
+		<classpath refid="catalina-ant-classpath"/>
+	</taskdef>
+	<taskdef name="findleaks" classname="org.apache.catalina.ant.FindLeaksTask">
+		<classpath refid="catalina-ant-classpath"/>
+	</taskdef>
+	<taskdef name="resources" classname="org.apache.catalina.ant.ResourcesTask">
+		<classpath refid="catalina-ant-classpath"/>
+	</taskdef>
+	<taskdef name="start" classname="org.apache.catalina.ant.StartTask">
+		<classpath refid="catalina-ant-classpath"/>
+	</taskdef>
+	<taskdef name="stop" classname="org.apache.catalina.ant.StopTask">
+		<classpath refid="catalina-ant-classpath"/>
+	</taskdef>
+	<taskdef name="undeploy" classname="org.apache.catalina.ant.UndeployTask">
+		<classpath refid="catalina-ant-classpath"/>
+	</taskdef>
+	<target name="deploy" description="Install web application" depends="dist">
+		<deploy url="${tomcat.modifier.url}" username="${tomcat.modifier.username}" password="${tomcat.modifier.password}" path="${path}" war="file:${dist.dir}/${ant.project.name}.war"/>
+	</target>
+	<target name="reload" description="Reload web application" depends="dist">
+		<reload url="${tomcat.modifier.url}" username="${tomcat.modifier.username}" password="${tomcat.modifier.password}" path="${path}"/>
+	</target>
+	<target name="undeploy" description="Remove web application">
+		<undeploy url="${tomcat.modifier.url}" username="${tomcat.modifier.username}" password="${tomcat.modifier.password}" path="${path}"/>
+	</target>
+	
+	<target name="printTest">
+		<echo message="Server directory = ${appserver.home}"/>
+		<echo message="Servlet jar directory = ${servlet.jar}"/>
+		<echo message="JSP jar directory = ${jsp.jar}"/>
+	</target>
+</project>
