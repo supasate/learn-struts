@@ -11,7 +11,7 @@
 <body>
 <div align="center">
     <html:link page="/CustomerForm.jsp">Go to Customer Form</html:link>
-    &nbsp;&nbps;
+    &nbsp;&nbsp;
     <html:link page="/showUserData.do">Show User Data</html:link>
 </div>
 </body>
