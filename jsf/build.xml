@@ -2,7 +2,6 @@
 	<description>Basic JSF Application</description>
 	<property environment="env"/>
 	<property file="build.properties"/>
-	
 	<fileset id="jsf.lib.files" dir="${jsf.lib.dir}">
 		<include name="**/*.jar"/>
 	</fileset>
