@@ -39,6 +39,9 @@
 		<copy todir="web/WEB-INF/classes">
 			<fileset dir="${build.dir}"/>
 		</copy>
+		<copy todir="web/WEB-INF/lib">
+			<fileset dir="${jsf.lib.dir}"/>
+		</copy>
 		<war destfile="${dist.dir}/${ant.project.name}.war" webxml="web/WEB-INF/web.xml">
 			<fileset dir="web" excludes="**/web.xml"/>
 			<webinf dir="web/WEB-INF">
